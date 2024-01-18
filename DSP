@@ -1,0 +1,189 @@
+
+
+Sub EQD()
+'
+
+'
+    Dim filename1 As String
+    Dim filename2 As String
+    Dim filename3_prev As String
+    Dim Template_DSP_file As String
+    Dim working_path As String
+    Dim source_path As String
+    Dim Template_DSP_path As String
+    Dim working_file As Workbook
+    Dim working_file_CTP As Workbook
+    Dim working_file_prev As Workbook
+    Dim Template_DSP As Workbook
+    Dim lastrow1 As Long
+    Dim lastrow2 As Long
+    Dim lastrow3 As Long
+    Dim lastrow4 As Long
+ 
+
+
+    
+    working_path = Worksheets("Sheet1").Range("C3").Value
+    filename1 = Worksheets("Sheet1").Range("C4").Value
+    filename2_prev = Worksheets("Sheet1").Range("C5").Value
+    filename_CTP = Worksheets("Sheet1").Range("C6").Value
+    
+    source_path = Worksheets("Sheet1").Range("C7").Value
+    filename3 = Worksheets("Sheet1").Range("C8").Value
+    
+    Template_DSP_path = Worksheets("Sheet1").Range("C10").Value
+    Template_DSP_file = Worksheets("Sheet1").Range("C11").Value
+   
+
+    Application.AutomationSecurity = msoAutomationSecurityForceDisable
+   
+       
+    Set working_file = Workbooks.Open(working_path & "\" & filename1 & ".csv")
+    working_file.Activate
+    Range("E2:F2").Select
+    Range(Selection, Selection.End(xlDown)).ClearContents
+    Range("J2:L2").Select
+    Range(Selection, Selection.End(xlDown)).ClearContents
+    
+    
+    Set source_file = Workbooks.Open(source_path & "\" & filename3 & ".xlsx")
+    source_file.Activate
+    Range("C3").Select
+    Range(Selection, Selection.End(xlDown)).Copy
+    working_file.Activate
+    Range("E2").PasteSpecial xlValues
+    source_file.Activate
+    Range("BP3").Select
+    Range(Selection, Selection.End(xlDown)).Copy
+    working_file.Activate
+    Range("J2").PasteSpecial xlValues
+    source_file.Activate
+    Range("AS3").Select
+    Range(Selection, Selection.End(xlDown)).Copy
+    working_file.Activate
+    Range("K2").PasteSpecial xlValues
+    source_file.Activate
+    Range("M3").Select
+    Range(Selection, Selection.End(xlDown)).Copy
+    working_file.Activate
+    Range("L2").PasteSpecial xlValues
+    
+    Application.DisplayAlerts = False
+    source_file.Close
+    
+    
+    
+lastrow1 = Range("E" & Rows.Count).End(xlUp).Row
+lastrow2 = Range("B" & Rows.Count).End(xlUp).Row
+
+
+Range("B" & lastrow2, "B" & lastrow1).Select
+Selection.FillDown
+Range("C" & lastrow2, "C" & lastrow1).Select
+Selection.FillDown
+Range("D" & lastrow2, "D" & lastrow1).Select
+Selection.FillDown
+Range("G" & lastrow2, "G" & lastrow1).Select
+Selection.FillDown
+Range("N" & lastrow2, "N" & lastrow1).Select
+Selection.FillDown
+
+Set working_file_prev = Workbooks.Open(working_path & "\" & filename2_prev & ".csv")
+
+Set myrange = working_file_prev.Sheets(filename2_prev).Range("E2:F" & lastrow1)
+
+working_file.Activate
+
+For x = 2 To lastrow1
+     On Error Resume Next
+     working_file.Sheets(filename1).Range("F" & x).Value = Application.WorksheetFunction.VLookup(working_file.Sheets(filename1).Range("E" & x).Value, myrange, 2, False)
+     
+Next x
+     
+
+    
+  '
+End Sub
+
+Sub CTP()
+
+
+    Dim filename1 As String
+    Dim filename2 As String
+    Dim filename3_prev As String
+    Dim Template_DSP_file As String
+    Dim working_path As String
+    Dim source_path As String
+    Dim Template_DSP_path As String
+    Dim working_file As Workbook
+    Dim working_file_CTP As Workbook
+    Dim working_file_prev As Workbook
+    Dim Template_DSP As Workbook
+    Dim lastrow1 As Long
+    Dim lastrow2 As Long
+    Dim lastrow3 As Long
+    Dim lastrow4 As Long
+ 
+
+    
+    working_path = Worksheets("Sheet1").Range("C3").Value
+    filename1 = Worksheets("Sheet1").Range("C4").Value
+    filename2_prev = Worksheets("Sheet1").Range("C5").Value
+    filename_CTP = Worksheets("Sheet1").Range("C6").Value
+    
+    source_path = Worksheets("Sheet1").Range("C7").Value
+    filename3 = Worksheets("Sheet1").Range("C8").Value
+    
+    Template_DSP_path = Worksheets("Sheet1").Range("C10").Value
+    Template_DSP_file = Worksheets("Sheet1").Range("C11").Value
+   
+    Application.AutomationSecurity = msoAutomationSecurityForceDisable
+
+'CTP'
+Set working_file_CTP = Workbooks.Open(working_path & "\" & filename_CTP & ".csv")
+Set Template_DSP = Workbooks.Open(Template_DSP_path & "\" & Template_DSP_file & ".xlsx")
+    
+    
+   working_file_CTP.Activate
+    Range("A2").Select
+    Range(Selection, Selection.End(xlDown)).ClearContents
+    Range("D2").Select
+    Range(Selection, Selection.End(xlDown)).ClearContents
+    
+    
+    Set Template_DSP = Workbooks.Open(Template_DSP_path & "\" & Template_DSP_file & ".xlsx")
+    Set source_file = Workbooks.Open(source_path & "\" & filename3 & ".xlsx")
+    
+    source_file.Activate
+    Range("BV3").Select
+    Range(Selection, Selection.End(xlDown)).Copy
+    working_file_CTP.Activate
+    Range("A2").PasteSpecial xlValues
+    
+    
+    Application.DisplayAlerts = False
+    source_file.Close
+    
+    working_file_CTP.Activate
+    lastrow3 = working_file_CTP.Sheets(filename_CTP).Range("A" & Rows.Count).End(xlUp).Row
+    lastrow4 = Template_DSP.Sheets("working").Range("A" & Rows.Count).End(xlUp).Row
+    lastrow5 = Template_DSP.Sheets("name_mapping").Range("A" & Rows.Count).End(xlUp).Row
+    
+    Set myrange2 = Template_DSP.Sheets("working").Range("A2:D" & lastrow4)
+    Set myrange3 = Template_DSP.Sheets("name_mapping").Range("A2:E" & lastrow5)
+   
+    
+ 
+    
+For x = 2 To lastrow3
+     On Error Resume Next
+     working_file_CTP.Sheets(filename_CTP).Range("D" & x).Value = Application.WorksheetFunction.IfError(Application.VLookup(working_file_CTP.Sheets(filename_CTP).Range("A" & x).Value, myrange2, 4, False), Application.VLookup(working_file_CTP.Sheets(filename_CTP).Range("A" & x).Value, myrange3, 5, False))
+     
+Next x
+
+
+    working_file_CTP.Activate
+    Columns("D:D").Select
+    ActiveSheet.Range("A2" & lastrow3).RemoveDuplicates Columns:=4, Header:=xlYes
+
+End Sub
