@@ -1,0 +1,274 @@
+Sub Copy_To_ScoreCard_Consol_SBG()
+    
+  
+  Dim path As String
+  Dim file As String
+  Dim rpt_Month As String
+  Dim rpt_Year As String
+ 
+  
+  path = Worksheets("Control").Range("F27").Value
+  file = Worksheets("Control").Range("F28").Value
+  rpt_Month = MonthName(Month(Worksheets("Template").Range("D24").Value), True)
+  rpt_Year = Right(Year(Worksheets("Template").Range("D24").Value), 2)
+  
+  
+  Dim ppt As PowerPoint.Application
+  Dim pres As PowerPoint.Presentation
+
+
+
+  Set ppt = New PowerPoint.Application
+  Set pres = ppt.Presentations.Open(path & "\" & file & ".pptx")
+
+
+
+  Application.DisplayAlerts = False
+
+   
+  Dim Slide_array, Table_array, Cur_array, N3M_array, Num_A, A
+
+    Num_A = Array(1, 2, 3, 4, 5)
+    Slide_array = Array(10, 11, 12, 13, 14)
+    Table_array = Array("Table 6", "Table 6", "Table 6", "Table 6", "Table 6")
+    Cur_array = Array(3, 7, 11, 15, 19)
+    N3M_array = Array(6, 10, 14, 18, 22)
+    
+    For A = 0 To UBound(Num_A)
+     
+     
+     ppt.ActivePresentation.Slides(Slide_array(A)).Select
+     ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(1, 7).Shape.TextFrame.TextRange.Text = "Actual position (" & rpt_Month & "'" & rpt_Year & ")"
+     
+       'S3*************************************************************
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(2, 7).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Template").Range("G" & Cur_array(A)).Text
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(2, 8).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("H" & Cur_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(2, 9).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("H" & Cur_array(A)).Value * ThisWorkbook.Sheets("Template").Range("G1").Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(2, 10).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Template").Range("G" & N3M_array(A)).Text
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(2, 11).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("H" & N3M_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(2, 12).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("H" & N3M_array(A)).Value * ThisWorkbook.Sheets("Template").Range("G1").Value, "0.00")
+
+    
+       'S2*************************************************************
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(7, 7).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Template").Range("D" & Cur_array(A)).Text
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(7, 8).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("E" & Cur_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(7, 9).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("E" & Cur_array(A)).Value * ThisWorkbook.Sheets("Template").Range("D1").Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(7, 10).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Template").Range("D" & N3M_array(A)).Text
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(7, 11).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("E" & N3M_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(7, 12).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("E" & N3M_array(A)).Value * ThisWorkbook.Sheets("Template").Range("D1").Value, "0.00")
+
+   
+       'ECL*************************************************************
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(12, 7).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Template").Range("M" & Cur_array(A)).Text
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(12, 8).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("N" & Cur_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(12, 9).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("N" & Cur_array(A)).Value * ThisWorkbook.Sheets("Template").Range("M1").Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(12, 10).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Template").Range("M" & N3M_array(A)).Text
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(12, 11).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("N" & N3M_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(12, 12).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("N" & N3M_array(A)).Value * ThisWorkbook.Sheets("Template").Range("M1").Value, "0.00")
+
+
+       'RW*************************************************************
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(17, 7).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Template").Range("J" & Cur_array(A)).Text
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(17, 8).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("K" & Cur_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(17, 9).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("K" & Cur_array(A)).Value * ThisWorkbook.Sheets("Template").Range("J1").Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(17, 10).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Template").Range("J" & N3M_array(A)).Text
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(17, 11).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("K" & N3M_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(17, 12).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("K" & N3M_array(A)).Value * ThisWorkbook.Sheets("Template").Range("J1").Value, "0.00")
+
+
+       'RAROC*************************************************************
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(22, 7).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Template").Range("P" & Cur_array(A)).Text
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(22, 8).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("Q" & Cur_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(22, 9).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("Q" & Cur_array(A)).Value * ThisWorkbook.Sheets("Template").Range("P1").Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(22, 10).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Template").Range("P" & N3M_array(A)).Text
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(22, 11).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("Q" & N3M_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(22, 12).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("Q" & N3M_array(A)).Value * ThisWorkbook.Sheets("Template").Range("P1").Value, "0.00")
+    
+      'Final*************************************************************
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(27, 9).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("S" & Cur_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(29, 9).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("S" & Cur_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(27, 12).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("S" & N3M_array(A)).Value, "0.00")
+  ppt.ActivePresentation.Slides(Slide_array(A)).Shapes(Table_array(A)).Table.Cell(29, 12).Shape.TextFrame.TextRange.Text = Format(ThisWorkbook.Sheets("Template").Range("S" & N3M_array(A)).Value, "0.00")
+             ' Introduce delay to let paste action happen before moving on
+                Wait = Timer
+                While Timer < Wait + 0.5
+                DoEvents
+                
+                Wend
+    Next A
+   
+
+  'Colour*****************************************************************************************************************************************
+     Dim Slide_num, Table_num, Num_B, B
+     
+     Num_B = Array(1, 2, 3, 4, 5)
+     Slide_num = Array(10, 11, 12, 13, 14)
+     Table_num = Array("Table 6", "Table 6", "Table 6", "Table 6", "Table 6")
+     Range1_num = Array(3, 7, 11, 15, 19)
+     Range2_num = Array(6, 10, 14, 18, 22)
+     For B = 0 To UBound(Num_B)
+    
+             
+   
+                 Dim Cell_num, Num_C, C
+     
+                   Num_C = Array(1, 2, 3, 4, 5)
+                    Cell_num = Array(2, 7, 12, 17, 22)
+                    For C = 0 To UBound(Num_C)
+                        
+                        
+   ppt.ActivePresentation.Slides(Slide_num(B)).Select
+ 
+   If ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 8).Shape.TextFrame.TextRange = 1 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 8).Shape.Fill.ForeColor.RGB = RGB(255, 0, 0)
+          
+    ElseIf ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 8).Shape.TextFrame.TextRange = 2 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 8).Shape.Fill.ForeColor.RGB = RGB(255, 192, 0)
+          
+    ElseIf ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 8).Shape.TextFrame.TextRange = 3 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 8).Shape.Fill.ForeColor.RGB = RGB(0, 255, 0)
+          
+    ElseIf ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 8).Shape.TextFrame.TextRange = 4 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 8).Shape.Fill.ForeColor.RGB = RGB(111, 205, 228)
+     
+    ElseIf ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 8).Shape.TextFrame.TextRange = 5 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 8).Shape.Fill.ForeColor.RGB = RGB(255, 204, 255)
+     
+  End If
+  
+          
+   If ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 11).Shape.TextFrame.TextRange = 1 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 11).Shape.Fill.ForeColor.RGB = RGB(255, 0, 0)
+          
+    ElseIf ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 11).Shape.TextFrame.TextRange = 2 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 11).Shape.Fill.ForeColor.RGB = RGB(255, 192, 0)
+          
+    ElseIf ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 11).Shape.TextFrame.TextRange = 3 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 11).Shape.Fill.ForeColor.RGB = RGB(0, 255, 0)
+          
+    ElseIf ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 11).Shape.TextFrame.TextRange = 4 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 11).Shape.Fill.ForeColor.RGB = RGB(111, 205, 228)
+     
+    ElseIf ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 11).Shape.TextFrame.TextRange = 5 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(Cell_num(C), 11).Shape.Fill.ForeColor.RGB = RGB(255, 204, 255)
+     
+  End If
+  
+  If ThisWorkbook.Sheets("Template").Range("S" & Range1_num(B)).Value > 4 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(27, 9).Shape.Fill.ForeColor.RGB = RGB(255, 204, 255)
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(29, 9).Shape.Fill.ForeColor.RGB = RGB(255, 204, 255)
+          
+    ElseIf ThisWorkbook.Sheets("Template").Range("S" & Range1_num(B)).Value > 3 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(27, 9).Shape.Fill.ForeColor.RGB = RGB(111, 205, 228)
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(29, 9).Shape.Fill.ForeColor.RGB = RGB(111, 205, 228)
+          
+          
+    ElseIf ThisWorkbook.Sheets("Template").Range("S" & Range1_num(B)).Value > 2 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(27, 9).Shape.Fill.ForeColor.RGB = RGB(0, 255, 0)
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(29, 9).Shape.Fill.ForeColor.RGB = RGB(0, 255, 0)
+          
+    ElseIf ThisWorkbook.Sheets("Template").Range("S" & Range1_num(B)).Value > 1 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(27, 9).Shape.Fill.ForeColor.RGB = RGB(255, 192, 0)
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(29, 9).Shape.Fill.ForeColor.RGB = RGB(255, 192, 0)
+     
+    ElseIf ThisWorkbook.Sheets("Template").Range("S" & Range1_num(B)).Value = 1 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(27, 9).Shape.Fill.ForeColor.RGB = RGB(255, 0, 0)
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(29, 9).Shape.Fill.ForeColor.RGB = RGB(255, 0, 0)
+     
+  End If
+  
+  If ThisWorkbook.Sheets("Template").Range("S" & Range2_num(B)).Value > 4 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(27, 12).Shape.Fill.ForeColor.RGB = RGB(255, 204, 255)
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(29, 12).Shape.Fill.ForeColor.RGB = RGB(255, 204, 255)
+          
+    ElseIf ThisWorkbook.Sheets("Template").Range("S" & Range2_num(B)).Value > 3 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(27, 12).Shape.Fill.ForeColor.RGB = RGB(111, 205, 228)
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(29, 12).Shape.Fill.ForeColor.RGB = RGB(111, 205, 228)
+          
+          
+    ElseIf ThisWorkbook.Sheets("Template").Range("S" & Range2_num(B)).Value > 2 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(27, 12).Shape.Fill.ForeColor.RGB = RGB(0, 255, 0)
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(29, 12).Shape.Fill.ForeColor.RGB = RGB(0, 255, 0)
+          
+    ElseIf ThisWorkbook.Sheets("Template").Range("S" & Range2_num(B)).Value > 1 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(27, 12).Shape.Fill.ForeColor.RGB = RGB(255, 192, 0)
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(29, 12).Shape.Fill.ForeColor.RGB = RGB(255, 192, 0)
+     
+    ElseIf ThisWorkbook.Sheets("Template").Range("S" & Range2_num(B)).Value = 1 Then
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(27, 12).Shape.Fill.ForeColor.RGB = RGB(255, 0, 0)
+          ppt.ActivePresentation.Slides(Slide_num(B)).Shapes(Table_num(B)).Table.Cell(29, 12).Shape.Fill.ForeColor.RGB = RGB(255, 0, 0)
+     
+  End If
+  
+          ' Introduce delay to let paste action happen before moving on
+                Wait = Timer
+                While Timer < Wait + 0.5
+                DoEvents
+                Wend
+                
+                
+                 Next C
+             
+             Next B
+    
+    
+
+  Dim Slide_arr, Table_arr, Cur_arr, N3M_arr, Num_D, D
+
+    Num_D = Array(1, 2, 3, 4, 5)
+    Slide_arr = Array(10, 11, 12, 13, 14)
+    Table_arr = Array("Table 6", "Table 6", "Table 6", "Table 6", "Table 6")
+    map_arr = Array(5, 6, 7, 8, 9)
+    'CORP & COMM & MM & RSME & Retail
+    
+    For D = 0 To UBound(Num_D)
+     
+    
+     
+       'S3*************************************************************
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(2, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("G" & 1 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(3, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("F" & 1 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(4, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("E" & 1 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(5, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("D" & 1 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(6, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("C" & 1 & map_arr(D)).Text
+       'S2*************************************************************
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(7, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("G" & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(8, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("F" & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(9, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("E" & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(10, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("D" & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(11, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("C" & map_arr(D)).Text
+       'ECL*************************************************************
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(12, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("G" & 3 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(13, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("F" & 3 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(14, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("E" & 3 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(15, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("D" & 3 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(16, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("C" & 3 & map_arr(D)).Text
+       'CreditRW*************************************************************
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(17, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("G" & 2 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(18, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("F" & 2 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(19, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("E" & 2 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(20, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("D" & 2 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(21, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("C" & 2 & map_arr(D)).Text
+       'RAROC*************************************************************
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(22, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("G" & 4 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(23, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("F" & 4 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(24, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("E" & 4 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(25, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("D" & 4 & map_arr(D)).Text
+  ppt.ActivePresentation.Slides(Slide_arr(D)).Shapes(Table_arr(D)).Table.Cell(26, 5).Shape.TextFrame.TextRange.Text = ThisWorkbook.Sheets("Threshold_2023").Range("C" & 4 & map_arr(D)).Text
+  
+             ' Introduce delay to let paste action happen before moving on
+                Wait = Timer
+                While Timer < Wait + 0.5
+                DoEvents
+                
+                Wend
+    Next D
+       
+        MsgBox "Finished!"
+        
+End Sub
+
+
+
+
+
