@@ -1,0 +1,117 @@
+ Sub Convert_to_PDF()
+
+
+ 
+ Dim dt As Date
+ Dim prev_Day As Date
+ Dim lastRow As Long
+    
+ dt = Date
+ prev_Day = DateSerial(Year(dt), Month(dt), Day(dt) - 1)
+ prev_Day2 = Format(prev_Day, "ddmmyy")
+ lastRow = ThisWorkbook.Sheets("S&P 500").Range("A" & Rows.Count).End(xlUp).Row
+ lastRow2 = ThisWorkbook.Sheets("United States 10-Year Bond Yiel").Range("A" & Rows.Count).End(xlUp).Row
+ lastRow3 = ThisWorkbook.Sheets("US 5Yr CDS Spread").Range("A" & Rows.Count).End(xlUp).Row
+ lastRow4 = ThisWorkbook.Sheets("US Dollar Index").Range("A" & Rows.Count).End(xlUp).Row
+
+  
+  
+  Dim path As String
+  Dim file As String
+  path = ThisWorkbook.Sheets("Control").Range("C2").Value
+  file = ThisWorkbook.Sheets("Control").Range("C3").Value
+  
+  Dim ppt As PowerPoint.Application
+  Dim pres As PowerPoint.Presentation
+  
+  
+  Set ppt = New PowerPoint.Application
+  Set pres = ppt.Presentations.Open(path & "\" & file & ".pptx")
+ 
+  Application.DisplayAlerts = False
+  
+  With ppt.ActivePresentation.Slides(1).Shapes("Textbox 4")
+  
+    .TextFrame.TextRange.Text = "Daily Movement as of : " & prev_Day
+    .TextFrame.TextRange.Characters(24, 11).Font.Underline = msoTrue
+
+  End With
+    
+   With ppt.ActivePresentation.Slides(1).Shapes("Table 2")
+  
+     .Table.cell(1, 2).Shape.TextFrame.TextRange.Text = FormatPercent(ThisWorkbook.Sheets("S&P 500").Range("G" & lastRow).Value)
+     .Table.cell(1, 4).Shape.TextFrame.TextRange.Text = FormatPercent(ThisWorkbook.Sheets("United States 10-Year Bond Yiel").Range("F" & lastRow2).Value)
+     .Table.cell(2, 2).Shape.TextFrame.TextRange.Text = FormatPercent(ThisWorkbook.Sheets("US 5Yr CDS Spread").Range("F" & lastRow3).Value)
+     .Table.cell(2, 4).Shape.TextFrame.TextRange.Text = FormatPercent(ThisWorkbook.Sheets("US Dollar Index").Range("G" & lastRow4).Value)
+
+  End With
+      
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Dim Xchart As Excel.ChartObject
+
+ThisWorkbook.Sheets("S&P 500").Activate
+   For Each Xchart In ActiveSheet.ChartObjects
+       Xchart.Select
+       ActiveChart.ChartArea.Copy
+       ppt.ActivePresentation.Slides(1).Shapes.PasteSpecial(DataType:=ppPasteDefault).Select
+    With ppt.ActiveWindow.Selection.ShapeRange
+
+        .Height = 3.06 * 72
+        .Width = 4.87 * 72
+        .Top = 97.05
+        .Left = 1.22
+    
+    End With
+    Next Xchart
+'''''''''''''''''''''''
+ ThisWorkbook.Sheets("United States 10-Year Bond Yiel").Activate
+ For Each Xchart In ActiveSheet.ChartObjects
+       Xchart.Select
+       ActiveChart.ChartArea.Copy
+       ppt.ActivePresentation.Slides(1).Shapes.PasteSpecial(DataType:=ppPasteDefault).Select
+    With ppt.ActiveWindow.Selection.ShapeRange
+
+        .Height = 3.06 * 72
+        .Width = 4.87 * 72
+        .Top = 104.97
+        .Left = 362.35
+    
+    End With
+    Next Xchart
+'''''''''''''''''''''''''
+ThisWorkbook.Sheets("US 5Yr CDS Spread").Activate
+ For Each Xchart In ActiveSheet.ChartObjects
+       Xchart.Select
+       ActiveChart.ChartArea.Copy
+       ppt.ActivePresentation.Slides(1).Shapes.PasteSpecial(DataType:=ppPasteDefault).Select
+    With ppt.ActiveWindow.Selection.ShapeRange
+
+        .Height = 3.06 * 72
+        .Width = 4.87 * 72
+        .Top = 318.88
+        .Left = 1.78
+    
+    End With
+    Next Xchart
+''''''''''''''''''''''''''''''
+ThisWorkbook.Sheets("US Dollar Index").Activate
+ For Each Xchart In ActiveSheet.ChartObjects
+       Xchart.Select
+       ActiveChart.ChartArea.Copy
+       ppt.ActivePresentation.Slides(1).Shapes.PasteSpecial(DataType:=ppPasteDefault).Select
+    With ppt.ActiveWindow.Selection.ShapeRange
+
+        .Height = 3.06 * 72
+        .Width = 4.87 * 72
+        .Top = 323.47
+        .Left = 361.18
+    
+    End With
+    Next Xchart
+''''''''''''''''''''''''''''''''
+
+    ppt.ActivePresentation.SaveAs "\\10.186.237.122\grcm\GCRM-GEN\GCCRM\Group Corporate Credit Risk\Treasury Global Market\2023_05_12 US Debt Ceiling\Update on US Debt Ceiling Daily Monitoring_" & prev_Day2 & ".pptx"
+    Set ppt = Nothing
+    
+    End Sub
